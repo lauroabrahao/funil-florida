@@ -29,7 +29,8 @@
   };
 
   // Mensagem do WhatsApp: deixa claro que é a consultoria e de qual página/botão veio
-  var REF = 'LP Consultoria Estratégica Flórida';
+  var REF = document.body.getAttribute('data-ref') || 'LP Consultoria Estratégica Flórida';
+  var ORIG = document.body.getAttribute('data-origem') === 'quiz' ? 'Vim pelo quiz de perfil da Realize' : 'Vim pela página da Realize (vídeo da Mara)';
   function origem() {
     var q = new URLSearchParams(location.search), o = [];
     if (q.get('utm_source')) o.push(q.get('utm_source'));
@@ -38,7 +39,7 @@
     return o.join(' / ');
   }
   function mensagem(motivo, local) {
-    var m = 'Olá! Vim pela página da Realize (vídeo da Mara) e quero agendar a minha consultoria estratégica sem custos para analisar o meu caso na Flórida.';
+    var m = 'Olá! ' + ORIG + ' e quero agendar a minha consultoria estratégica sem custos para analisar o meu caso na Flórida.';
     if (motivo) m += ' Meu principal motivo: ' + motivo + '.';
     m += '\n\n[Ref: ' + REF + (local ? ' | botão: ' + local : '') + (origem() ? ' | origem: ' + origem() : '') + ']';
     return m;
