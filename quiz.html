@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Análise de perfil | Realize International Realty</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="images/logo-emblem.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="quiz-body">
+
+<div class="qhead">
+  <div class="row"><a class="brand" href="a.html" style="font-size:1.4rem"><img src="images/logo-emblem.png" alt="Realize International Realty"><span>REALIZE</span></a><span class="lbl" id="lbl" aria-live="polite"></span></div>
+  <div class="bar"><i id="prog"></i></div>
+</div>
+
+<main class="qmain">
+  <div id="s-q">
+    <p id="intro" class="intro">Responda 8 perguntas rápidas (1 minuto). Com elas, o especialista já chega à reunião sabendo do seu caso, inclusive do seu visto.</p>
+    <h1 id="q"></h1>
+    <div class="opts" id="opts"></div>
+  </div>
+
+  <form id="s-c" class="hidden" onsubmit="return false" novalidate>
+    <h1>Para onde enviamos a sua análise?</h1>
+    <p>A Mara recebe suas respostas e fala com você pelo WhatsApp, em português.</p>
+    <div class="field"><label for="nome">Nome</label><input id="nome" autocomplete="name" placeholder="Seu nome"><span class="err" id="e-nome"></span></div>
+    <div class="field"><label for="whats">WhatsApp</label><input id="whats" type="tel" autocomplete="tel" inputmode="tel" placeholder="(11) 90000-0000"><span class="err" id="e-whats"></span></div>
+    <div class="field"><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" placeholder="voce@email.com"><span class="err" id="e-email"></span></div>
+    <div class="field"><label for="horario">Melhor horário para falarmos</label>
+      <select id="horario" style="background:var(--bg3);color:var(--cream);border:1px solid var(--line);border-radius:14px;padding:15px 16px;font:400 1rem Inter">
+        <option>Manhã (8h às 12h)</option><option>Tarde (12h às 18h)</option><option>Noite (18h às 21h)</option><option>Qualquer horário</option>
+      </select></div>
+    <button class="btn" type="button" id="finish">Ver minha estratégia</button>
+    <p class="note">Usamos seus dados só para falar sobre esta análise.</p>
+  </form>
+
+  <div id="s-r" class="hidden">
+    <span class="eyebrow">Sua estratégia</span>
+    <h1 id="r-title"></h1>
+    <p style="margin-top:14px" id="r-comment"></p>
+    <p style="margin-top:10px">Na reunião por vídeo, o especialista apresenta imóveis, entrada estimada e a conta completa do aluguel para o seu perfil.</p>
+    <div class="card summary" id="summary"></div>
+    <a class="btn" id="agenda" href="#">Agendar reunião com especialista</a>
+    <a class="btn sec" id="wa" href="#" style="margin-top:12px">Falar no WhatsApp</a>
+    <p class="note" id="r-note">Suas respostas já vão na primeira mensagem do WhatsApp.</p>
+    <button class="back" id="restart" type="button" style="display:block;margin:10px auto 0">Refazer o quiz</button>
+  </div>
+
+  <button class="back" id="back" type="button">← Voltar</button>
+</main>
+
+<footer><div class="wrap">
+  <p style="color:var(--cream);font-weight:600">Realize International Realty LLC · Orlando, Flórida · Licença [Nº DA LICENÇA]</p>
+  <p>Mara Brasil, corretora licenciada na Flórida · Licença [Nº DA LICENÇA]</p>
+  <p class="legal">O quiz indica uma estratégia para o seu perfil e não é aprovação de crédito. Condições dependem de análise de crédito; aluguel e valorização são estimativas, sem garantia.</p>
+</div></footer>
+
+<script src="js/theme.js"></script>
+<script src="js/config.js"></script>
+<script src="js/track.js"></script>
+<script src="js/quiz.js"></script>
+</body>
+</html>
