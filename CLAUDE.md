@@ -1,0 +1,41 @@
+# Página de captação: Realize International Realty (Flórida)
+
+Projeto de marketing e pré-vendas no Brasil para a Realize International Realty LLC (Orlando) e a corretora Mara Brasil. O objetivo desta página é levar brasileiros que veem anúncios no Meta para uma conversa por WhatsApp (consultoria estratégica sem custos).
+
+Este arquivo existe para que qualquer sessão do Claude (ou pessoa) que abrir esta pasta entenda o estado do trabalho e as decisões já tomadas. Leia antes de editar.
+
+Padrão visual (copiado do site da Realize): fundo azul-marinho quase preto (#020914, #04111F, #01060E), dourado #C89B45 nos botões com texto escuro, dourado claro #F2D99B nos detalhes, texto creme #F6F0E6, títulos em Cormorant Garamond (peso 600) e textos em Inter, botões em pílula com texto em maiúsculas.
+
+Regras que não podem ser quebradas:
+- Toda peça mostra o nome da imobiliária (Realize International Realty LLC) junto do contato (regra FREC 61J2-10.025 da Flórida).
+- Nada de promessa absoluta ("se paga sozinho", "patrimônio blindado", "aprovado"). Aluguel: "pode cobrir boa parte da prestação", sem garantia.
+- Evitar marcas da Disney. Usar "15 min dos parques".
+- Aviso no rodapé: condições dependem de análise de crédito; aluguel e valorização são estimativas, sem garantia.
+
+## Estado atual da página (handoff)
+
+Página única de captação em `site/index.html` (CSS em `site/css/page.css` e `site/css/style.css`, scripts em `site/js/`). Formato VSL: headline + vídeo grande no topo, botões levam ao WhatsApp. O quiz (`site/quiz.html`) e as versões antigas (`a.html`, `b.html`) não fazem parte do fluxo atual.
+
+### Decisões que não devem ser desfeitas
+- **Oferta:** "consultoria estratégica sem custos". Não usar "gratuita/grátis" (soa barato).
+- **Headline:** "Pare de perder meses pesquisando. Veja em pouco mais de 1 minuto como um brasileiro compra imóvel na Flórida, com entrada de 25% e sem sair do Brasil."
+- **Tom:** direto e agressivo na dor (pesquisar sem decidir, medo de errar, custo de esperar). Sem promessa absoluta ("blindagem", "aprovado", "se paga sozinho"). Usar "proteção patrimonial".
+- **Visto:** não precisa de visto americano nem de green card. O visto só influencia o financiamento.
+- **Não mostrar número de avaliações** (49 é pouco). Depoimentos: 2 vídeos pequenos + 4 avaliações reais do Google em texto (extraídas de marabrasilimoveis.com).
+- **WhatsApp único em toda a página:** +1 (689) 323-1376. Está em `site/js/config.js` (campo `WHATSAPP`). A mensagem pronta é montada em `site/js/track.js` e traz a referência da página e o botão de origem (`[Ref: LP Consultoria Estratégica Flórida | botão: ...]`).
+- **Licença única:** BK3596555 (licença de corretora no Estado da Flórida). Não existe um segundo número.
+- **Botão de ação sempre visível** (não depende de assistir ao vídeo).
+- **Layout:** conteúdo na largura toda (container 1500px), alinhado à esquerda, hero centralizado. Todo ajuste de celular fica dentro de `@media (max-width:759px)` no fim de `page.css`; computador e tablet não devem mudar por causa dele.
+- **Rodapé** no estilo do site da Realize, com redes sociais, Política de Privacidade (texto real do site deles), Termos de Uso e Cookies (redigidos por nós, precisam de revisão jurídica) e aviso de cookies (Aceitar/Rejeitar). Se rejeitar, o Meta Pixel não liga.
+- A página está com `noindex` enquanto não for publicada de verdade.
+
+### Pendências
+- ID do Pixel da Meta (`PIXEL_ID` em `config.js`).
+- Webhook do CRM (`CRM_WEBHOOK`) e link de agenda (`AGENDA_URL`), se forem usados.
+- Revisão jurídica dos Termos de Uso e do aviso de Cookies.
+- Nome do segundo depoimento (hoje "Cliente Realize").
+- Novo vídeo da VSL alinhado à headline (roteiro em `roteiro-vsl-pratico.md`). O vídeo atual fala de família e patrimônio e diz "consultoria gratuita" nas legendas.
+- Hospedagem de verdade (Netlify, Cloudflare Pages ou GitHub Pages). Existe o repositório `lauroabrahao/funil-florida` no GitHub, criado e público, com o envio possivelmente incompleto.
+
+### Como testar localmente
+Abrir um servidor simples dentro de `site/` (por exemplo `python -m http.server 8765`) e acessar `http://localhost:8765/index.html`.

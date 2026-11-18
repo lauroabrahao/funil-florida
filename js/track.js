@@ -1,12 +1,16 @@
 (function () {
   var C = window.FUNIL || {};
 
-  // Meta Pixel (só carrega se houver ID)
-  if (C.PIXEL_ID) {
+  // Meta Pixel: só carrega se houver ID e se a pessoa não tiver rejeitado os cookies
+  var consent = null;
+  try { consent = localStorage.getItem('realize-cookies'); } catch (e) {}
+  window.startPixel = function () {
+    if (!C.PIXEL_ID || window.fbq) return;
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', C.PIXEL_ID);
     fbq('track', 'PageView');
-  }
+  };
+  if (consent !== 'rejeitado') window.startPixel();
 
   // Variante do teste A/B (definida em <body data-variant>)
   var variant = document.body.getAttribute('data-variant');
@@ -24,12 +28,34 @@
     return 'https://wa.me/' + n + (text ? '?text=' + encodeURIComponent(text) : '');
   };
 
-  // Links de WhatsApp genéricos
+  // Mensagem do WhatsApp: deixa claro que é a consultoria e de qual página/botão veio
+  var REF = 'LP Consultoria Estratégica Flórida';
+  function origem() {
+    var q = new URLSearchParams(location.search), o = [];
+    if (q.get('utm_source')) o.push(q.get('utm_source'));
+    if (q.get('utm_campaign')) o.push(q.get('utm_campaign'));
+    if (q.get('utm_content')) o.push(q.get('utm_content'));
+    return o.join(' / ');
+  }
+  function mensagem(motivo, local) {
+    var m = 'Olá! Vim pela página da Realize (vídeo da Mara) e quero agendar a minha consultoria estratégica sem custos para analisar o meu caso na Flórida.';
+    if (motivo) m += ' Meu principal motivo: ' + motivo + '.';
+    m += '\n\n[Ref: ' + REF + (local ? ' | botão: ' + local : '') + (origem() ? ' | origem: ' + origem() : '') + ']';
+    return m;
+  }
+  window.waMensagem = mensagem;
+
+  // Botões que levam ao WhatsApp
   document.querySelectorAll('[data-wa]').forEach(function (a) {
     var motivo = a.getAttribute('data-motivo');
-    a.href = waLink('Olá! Vi o vídeo da Mara e quero fazer a avaliação gratuita do meu caso com um profissional qualificado.' + (motivo ? ' Meu principal motivo: ' + motivo + '.' : ''));
+    a.href = waLink(mensagem(motivo, a.getAttribute('data-cta')));
     a.target = '_blank'; a.rel = 'noopener';
-    a.addEventListener('click', function () { track('Contact', { content_name: 'whatsapp_direto', motivo: a.getAttribute('data-motivo') || '' }); });
+    a.addEventListener('click', function () { track('Contact', { content_name: 'whatsapp_direto', motivo: motivo || '', local: a.getAttribute('data-cta') || '' }); });
+  });
+  // Ícone de WhatsApp do rodapé
+  document.querySelectorAll('.foot2-soc[aria-label="WhatsApp"]').forEach(function (a) {
+    a.href = waLink(mensagem('', 'rodape'));
+    a.addEventListener('click', function () { track('Contact', { content_name: 'whatsapp_rodape' }); });
   });
   document.querySelectorAll('[data-cta]').forEach(function (a) {
     a.addEventListener('click', function () { track('CliqueAgendar', { local: a.getAttribute('data-cta') }, true); });

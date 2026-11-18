@@ -20,7 +20,7 @@
   v.addEventListener('loadedmetadata', function () {
     if (v.videoWidth && v.videoHeight) {
       box.style.aspectRatio = v.videoWidth + ' / ' + v.videoHeight;
-      box.style.maxWidth = v.videoWidth > v.videoHeight ? '960px' : '380px';
+      box.style.maxWidth = v.videoWidth > v.videoHeight ? '1200px' : '380px';
     }
   });
 
