@@ -18,7 +18,7 @@ Página única de captação em `site/index.html` (CSS em `site/css/page.css` e 
 
 ### Decisões que não devem ser desfeitas
 - **Oferta:** "consultoria estratégica sem custos". Não usar "gratuita/grátis" (soa barato).
-- **Headline:** "Pare de perder meses pesquisando. Veja em pouco mais de 1 minuto como um brasileiro compra imóvel na Flórida, com possibilidade de entrada a partir de 25% e sem sair do Brasil."
+- **Headline:** "Pare de perder meses pesquisando. Veja em poucos minutos como um brasileiro compra imóvel na Flórida, com possibilidade de entrada a partir de 25% e sem sair do Brasil."
 - **Tom:** direto e agressivo na dor (pesquisar sem decidir, medo de errar, custo de esperar). Sem promessa absoluta ("blindagem", "aprovado", "se paga sozinho"). Usar "proteção patrimonial".
 - **Visto:** não precisa de visto americano nem de green card. O visto só influencia o financiamento.
 - **Não mostrar número de avaliações** (49 é pouco). Depoimentos: 2 vídeos pequenos + 4 avaliações reais do Google em texto (extraídas de marabrasilimoveis.com).

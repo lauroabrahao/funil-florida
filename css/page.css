@@ -450,3 +450,7 @@ header.top .wrap{max-width:1500px;width:calc(100% - 2*var(--gut))}
 @media(max-width:759px){
   .photo img{aspect-ratio:4/5;object-position:50% 0%}
 }
+
+/* Título principal um pouco menor */
+.vsl-hero h1{font-size:clamp(1.6rem,3.4vw,3.15rem);line-height:1.1}
+@media(max-width:759px){.vsl-hero h1{font-size:1.45rem}}
