@@ -57,3 +57,31 @@ Aplicados a partir da lista de compliance da Realize. Não desfazer sem revisão
 - **O vídeo principal** ainda traz frases mais fortes do que o texto da página ("você não precisa nem de 500 mil reais", "blindagem", "país seguro", "consultoria gratuita"). Há um aviso legal curto abaixo do vídeo. O ideal é regravar com o roteiro `roteiro-vsl-pratico.md`, adaptado a estas regras.
 - **A confirmar com a Realize:** disponibilidade real das condições de financiamento e dos valores anunciados.
 - Foto da Mara: `site/images/mara.jpg`.
+
+## Como o projeto está no ar (infraestrutura)
+
+- **Página:** https://realizehome.com.br, publicada pelo GitHub Pages a partir deste repositório (`lauroabrahao/funil-florida`, ramo `main`, raiz). Cada `git push` publica em cerca de 1 minuto. O arquivo `CNAME` contém o domínio; não apagar.
+- **Quiz:** https://quiz.realizehome.com.br, outro repositório (`lauroabrahao/quiz-florida`), também no GitHub Pages. O GitHub Pages só serve um domínio por repositório, por isso são dois.
+- **Domínio:** comprado na Hostinger (`realizehome.com.br`). A Hostinger só cuida do DNS: 4 registros A em `@` (185.199.108.153, .109.153, .110.153, .111.153) e CNAME `www` e `quiz` apontando para `lauroabrahao.github.io`. Não há hospedagem na Hostinger.
+- **HTTPS:** certificado emitido pelo GitHub e "Forçar HTTPS" ligado nos dois repositórios. Se algum dia o certificado sumir, tirar e recolocar o domínio em Settings > Pages força nova emissão.
+- **Cache:** o GitHub Pages manda o navegador guardar a página por 10 minutos. Para ver uma mudança na hora, Ctrl+Shift+R ou janela anônima.
+- **O GitHub às vezes cria commits sozinho no `CNAME`** quando o domínio é alterado. Se o `git push` for recusado, rodar `git pull --rebase origin main` e enviar de novo.
+- Os vídeos originais ficam em `videos/` (o principal tem 61 MB, perto do limite recomendado do GitHub de 50 MB).
+
+## Como trabalhar junto (git)
+
+1. Antes de começar: `git pull`.
+2. Depois de editar: `git add -A`, `git commit -m "o que mudou"`, `git push`.
+3. Testar local antes de enviar: dentro desta pasta, `python -m http.server 8765` e abrir `http://localhost:8765/index.html`.
+4. Não deixar a pasta do projeto dentro do OneDrive (já causou "branch quebrada" em outro projeto).
+
+## Pendências atuais (20/11/2026)
+
+- ID do Pixel da Meta (`PIXEL_ID` em `js/config.js`). O Pixel só liga depois da autorização de cookies de marketing.
+- Regravar o vídeo principal, alinhado às regras de compliance (o atual fala "consultoria gratuita", "blindagem", "país seguro" e "nem de 500 mil reais"). Roteiro-base no computador da Lauro (`roteiro-vsl-pratico.md`).
+- Confirmar com a Realize a disponibilidade real das condições de financiamento e dos valores anunciados.
+- Selo Equal Housing Opportunity: hoje é um desenho em SVG; trocar pelo arquivo oficial se existir.
+- Revisão jurídica dos Termos de Uso e do aviso de Cookies (redigidos por nós).
+- Destino dos leads do quiz que não enviam a mensagem no WhatsApp: a conta do Google da Lauro está sem armazenamento (não cria planilha). Opções: Chatwoot (API pública da caixa de entrada), Supabase, outra conta do Google ou automação (n8n/Make).
+- Levar para o quiz o mesmo aviso de envio de dados, a política e o banner de cookies novos.
+- "São Luis" nas legendas dos depoimentos está sem acento, como a Lauro escreveu ("São Luís" é o correto).
