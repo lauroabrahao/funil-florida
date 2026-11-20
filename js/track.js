@@ -1,16 +1,27 @@
 (function () {
   var C = window.FUNIL || {};
 
-  // Meta Pixel: só carrega se houver ID e se a pessoa não tiver rejeitado os cookies
-  var consent = null;
-  try { consent = localStorage.getItem('realize-cookies'); } catch (e) {}
+  // Consentimento de cookies: {"analytics":bool,"marketing":bool}. Sem escolha, nada não essencial é ativado.
+  window.cookieConsent = function () {
+    try {
+      var raw = localStorage.getItem('realize-cookies');
+      if (!raw) return null;
+      if (raw === 'aceito') return { analytics: true, marketing: true };      // formato antigo
+      if (raw === 'rejeitado') return { analytics: false, marketing: false }; // formato antigo
+      var v = JSON.parse(raw);
+      return v && typeof v === 'object' ? v : null;
+    } catch (e) { return null; }
+  };
+  // Meta Pixel: só carrega se houver ID E se o visitante autorizou cookies de marketing
   window.startPixel = function () {
     if (!C.PIXEL_ID || window.fbq) return;
+    var c = window.cookieConsent();
+    if (!c || !c.marketing) return;
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', C.PIXEL_ID);
     fbq('track', 'PageView');
   };
-  if (consent !== 'rejeitado') window.startPixel();
+  window.startPixel();
 
   // Variante do teste A/B (definida em <body data-variant>)
   var variant = document.body.getAttribute('data-variant');

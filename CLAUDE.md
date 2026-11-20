@@ -18,7 +18,7 @@ Página única de captação em `site/index.html` (CSS em `site/css/page.css` e 
 
 ### Decisões que não devem ser desfeitas
 - **Oferta:** "consultoria estratégica sem custos". Não usar "gratuita/grátis" (soa barato).
-- **Headline:** "Pare de perder meses pesquisando. Veja em pouco mais de 1 minuto como um brasileiro compra imóvel na Flórida, com entrada de 25% e sem sair do Brasil."
+- **Headline:** "Pare de perder meses pesquisando. Veja em pouco mais de 1 minuto como um brasileiro compra imóvel na Flórida, com possibilidade de entrada a partir de 25% e sem sair do Brasil."
 - **Tom:** direto e agressivo na dor (pesquisar sem decidir, medo de errar, custo de esperar). Sem promessa absoluta ("blindagem", "aprovado", "se paga sozinho"). Usar "proteção patrimonial".
 - **Visto:** não precisa de visto americano nem de green card. O visto só influencia o financiamento.
 - **Não mostrar número de avaliações** (49 é pouco). Depoimentos: 2 vídeos pequenos + 4 avaliações reais do Google em texto (extraídas de marabrasilimoveis.com).
@@ -39,3 +39,21 @@ Página única de captação em `site/index.html` (CSS em `site/css/page.css` e 
 
 ### Como testar localmente
 Abrir um servidor simples dentro de `site/` (por exemplo `python -m http.server 8765`) e acessar `http://localhost:8765/index.html`.
+
+## Ajustes de compliance (20/11/2026)
+
+Aplicados a partir da lista de compliance da Realize. Não desfazer sem revisão.
+- **Chamada:** "Atenção: você que mora no Brasil e quer comprar imóvel na Flórida." Não falar de "brasileiro" de forma genérica na chamada.
+- **Headline:** "...com possibilidade de entrada a partir de 25% e sem sair do Brasil." Abaixo, em tamanho menor: "Condições de financiamento sujeitas à análise e aprovação da instituição financeira. Custos de fechamento podem ser adicionais."
+- **R$ 500 mil:** sempre com a ressalva: "Dependendo do imóvel e das condições de financiamento, é possível iniciar seu investimento com menos de R$ 500 mil" e "Valores sujeitos à variação cambial, custos de aquisição e condições de financiamento." Não usar mais "você não precisa nem de R$ 500 mil".
+- **Visto/Green Card:** "Em geral, não é necessário... observadas as restrições legais aplicáveis. A compra de um imóvel não concede automaticamente visto, residência ou benefícios imigratórios."
+- **Aluguel:** "A renda de aluguel pode contribuir para o pagamento do financiamento... Não há garantia de rentabilidade." Aviso de locação anual ou por temporada (zoneamento, regras da comunidade ou condomínio).
+- **Ecossistema:** a Realize atua na intermediação imobiliária; os parceiros são de livre escolha do cliente.
+- **Identificação:** "Uma imobiliária americana, sediada na Flórida, com corretores licenciados e atendimento especializado em português." Nome Realize International Realty LLC no rodapé e junto do contato.
+- **Equal Housing Opportunity** no rodapé (selo feito em SVG; trocar pelo arquivo oficial se a Realize tiver).
+- **Aviso de contato** ("Ao enviar seus dados, você solicita o contato...") com Política de Privacidade clicável, perto dos botões principais. O quiz tem formulário e ainda precisa receber o mesmo aviso.
+- **Política de Privacidade (LGPD):** empresa responsável, dados, finalidades, bases legais (LGPD), contato por telefone/WhatsApp/e-mail, compartilhamento com parceiros, transferência para os EUA, rastreamento e remarketing, retenção, direitos e contato.
+- **Cookies:** o aviso tem "Aceitar todos", "Rejeitar cookies não essenciais" e "Gerenciar preferências". O Meta Pixel só liga depois da autorização de marketing (opt-in), e a escolha pode ser mudada em "Preferências de cookies", no rodapé. A escolha fica em `localStorage` (`realize-cookies`).
+- **O vídeo principal** ainda traz frases mais fortes do que o texto da página ("você não precisa nem de 500 mil reais", "blindagem", "país seguro", "consultoria gratuita"). Há um aviso legal curto abaixo do vídeo. O ideal é regravar com o roteiro `roteiro-vsl-pratico.md`, adaptado a estas regras.
+- **A confirmar com a Realize:** disponibilidade real das condições de financiamento e dos valores anunciados.
+- Foto da Mara: `site/images/mara.jpg`.
