@@ -2,8 +2,10 @@
 window.FUNIL = {
   AGENDA_URL: "",          // link da agenda do especialista (Calendly, Cal.com, Google Agenda...)
   WHATSAPP: "16893231376",            // só dígitos com DDI, ex.: 5511999999999
-  PIXEL_ID: "",            // ID do Pixel da Meta (vazio = pixel desligado)
-  CRM_WEBHOOK: "",         // URL que recebe o lead em JSON (n8n / Chatwoot via automação)
+  PIXEL_ID: "983800621247858",          // ID do Pixel da Meta (vazio = pixel desligado)
+  CRM_WEBHOOK: "",
+  CHATWOOT_URL: "https://chatwoot.agenciaabrahao.com.br", // endereço do seu Chatwoot, ex.: https://chat.seudominio.com.br
+  CHATWOOT_INBOX: "dQTnfSfkPFeH69ZYjiFCmG4V", // "Inbox Identifier" da caixa de entrada tipo API (Configurações > Caixas de entrada > Quiz Site)
   VIDEO_SRC: "videos/vsl.mp4",           // arquivo ou URL do vídeo vertical da Mara (.mp4)
   CTA_DELAY_SEC: 45,       // segundos após o play para liberar o botão (ou ao chegar em 50% do vídeo)
   VIDEO_POSTER: "images/poster.jpg",        // imagem de capa do vídeo (opcional)

@@ -77,11 +77,11 @@ Aplicados a partir da lista de compliance da Realize. Não desfazer sem revisão
 
 ## Pendências atuais (20/11/2026)
 
-- ID do Pixel da Meta (`PIXEL_ID` em `js/config.js`). O Pixel só liga depois da autorização de cookies de marketing.
+- Pixel 983800621247858 já em `js/config.js` (código fixo removido do HTML). Só liga depois da autorização de cookies de marketing.
 - Regravar o vídeo principal, alinhado às regras de compliance (o atual fala "consultoria gratuita", "blindagem", "país seguro" e "nem de 500 mil reais"). Roteiro-base no computador da Lauro (`roteiro-vsl-pratico.md`).
 - Confirmar com a Realize a disponibilidade real das condições de financiamento e dos valores anunciados.
 - Selo Equal Housing Opportunity: hoje é um desenho em SVG; trocar pelo arquivo oficial se existir.
 - Revisão jurídica dos Termos de Uso e do aviso de Cookies (redigidos por nós).
-- Destino dos leads do quiz que não enviam a mensagem no WhatsApp: a conta do Google da Lauro está sem armazenamento (não cria planilha). Opções: Chatwoot (API pública da caixa de entrada), Supabase, outra conta do Google ou automação (n8n/Make).
+- Leads do quiz vão para o Chatwoot (API pública de uma caixa de entrada tipo API, código em `js/quiz.js`). Falta preencher `CHATWOOT_URL` e `CHATWOOT_INBOX` em `config.js` e copiar `quiz.html`, `js/quiz.js` e `js/config.js` para o repositório `quiz-florida`. Cada lead tem um código `Q-XXXX`, que também vai na mensagem do WhatsApp.
 - Levar para o quiz o mesmo aviso de envio de dados, a política e o banner de cookies novos.
 - "São Luis" nas legendas dos depoimentos está sem acento, como a Lauro escreveu ("São Luís" é o correto).

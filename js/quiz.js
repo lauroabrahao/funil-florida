@@ -41,6 +41,8 @@
   var VISTO_NOTE = 'O tipo de visto muda as opções de financiamento. A Mara vai explicar o que se aplica ao seu caso.';
 
   var step = 0, answers = [], submitted = false;
+  var leadCode = 'Q-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+  var cw = null; // { source: contact source_id, conv: conversation id } no Chatwoot
   var $ = function (id) { return document.getElementById(id); };
 
   function temperature() {
@@ -86,7 +88,7 @@
   function message(lead) {
     var l = ['Olá, Mara! Fiz o quiz de perfil da Realize.', ''];
     rows().forEach(function (r) { l.push('• ' + r.k + ': ' + r.v); });
-    l.push('• Melhor horário: ' + lead.horario, '', 'Nome: ' + lead.nome, 'Estratégia: ' + RESULTS[answers[0]]);
+    l.push('• Melhor horário: ' + lead.horario, '', 'Nome: ' + lead.nome, 'Estratégia: ' + RESULTS[answers[0]], '', '[Quiz ' + leadCode + ']');
     return l.join('\n');
   }
 
@@ -103,7 +105,10 @@
       d.appendChild(b); d.appendChild(sp); s.appendChild(d);
     });
     var wa = $('wa'); wa.href = waLink(message(lead)); wa.target = '_blank'; wa.rel = 'noopener';
-    wa.onclick = function () { track('Contact', { content_name: 'quiz_whatsapp' }); };
+    wa.onclick = function () {
+      track('Contact', { content_name: 'quiz_whatsapp' });
+      cwNote('✅ Clicou no botão do WhatsApp. Confirme se a mensagem com o código ' + leadCode + ' chegou na caixa do WhatsApp.');
+    };
     var ag = $('agenda');
     if (C.AGENDA_URL) {
       ag.classList.remove('hidden'); wa.classList.add('sec'); wa.textContent = 'Falar no WhatsApp';
@@ -119,8 +124,10 @@
     if (submitted) return;
     submitted = true;
     track('Lead', { content_name: 'quiz_florida', value: t.score, currency: 'BRL', status: t.temp, variante: window.VARIANTE });
+    sendChatwoot(lead, t);
     if (C.CRM_WEBHOOK) {
       var payload = {
+        codigo: leadCode,
         origem: 'quiz-florida', variante: window.VARIANTE, temperatura: t.temp, pontuacao: t.score,
         nome: lead.nome, whatsapp: lead.whatsapp, email: lead.email, melhor_horario: lead.horario,
         visto: QS[VISTO].opts[answers[VISTO]],
@@ -134,8 +141,50 @@
     }
   }
 
+  // ===== Chatwoot (caixa de entrada tipo API, API pública: não expõe token) =====
+  function cwBase() {
+    if (!C.CHATWOOT_URL || !C.CHATWOOT_INBOX) return null;
+    return C.CHATWOOT_URL.replace(/\/+$/, '') + '/public/api/v1/inboxes/' + encodeURIComponent(C.CHATWOOT_INBOX);
+  }
+  function cwPost(path, body) {
+    return fetch(cwBase() + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: true })
+      .then(function (r) { if (!r.ok) throw r; return r.json(); });
+  }
+  function e164(d) { return '+' + (d.length <= 11 && d.indexOf('55') !== 0 ? '55' + d : d); }
+  function sendChatwoot(lead, t) {
+    if (!cwBase()) return;
+    var utm = Object.fromEntries(new URLSearchParams(location.search));
+    var attrs = {
+      codigo_quiz: leadCode, temperatura: t.temp, pontuacao: t.score, estrategia: RESULTS[answers[0]],
+      melhor_horario: lead.horario, whatsapp_informado: e164(lead.whatsapp),
+      utm_source: utm.utm_source || '', utm_campaign: utm.utm_campaign || '', utm_content: utm.utm_content || ''
+    };
+    rows().forEach(function (r) { attrs[r.k] = r.v; });
+    var contact = { identifier: leadCode, name: lead.nome, email: lead.email, phone_number: e164(lead.whatsapp), custom_attributes: attrs };
+    cwPost('/contacts', contact)
+      .catch(function () { delete contact.phone_number; return cwPost('/contacts', contact); }) // telefone já existe em outro contato
+      .then(function (c) {
+        return cwPost('/contacts/' + c.source_id + '/conversations', { custom_attributes: { codigo_quiz: leadCode, temperatura: t.temp } })
+          .then(function (conv) { cw = { source: c.source_id, conv: conv.id }; return conv; });
+      })
+      .then(function () {
+        var l = ['📋 Quiz enviado (' + leadCode + ') — ' + t.temp.toUpperCase() + ' (' + t.score + ' pts)', '',
+          'Nome: ' + lead.nome, 'WhatsApp: ' + e164(lead.whatsapp), 'E-mail: ' + lead.email, 'Melhor horário: ' + lead.horario, ''];
+        rows().forEach(function (r) { l.push('• ' + r.k + ': ' + r.v); });
+        l.push('', 'Estratégia: ' + RESULTS[answers[0]]);
+        if (utm.utm_campaign || utm.utm_content) l.push('Anúncio: ' + [utm.utm_campaign, utm.utm_content].filter(Boolean).join(' / '));
+        l.push('', '⏳ Ainda não clicou no WhatsApp.');
+        return cwNote(l.join('\n'));
+      })
+      .catch(function () {});
+  }
+  function cwNote(text) {
+    if (!cw || !cwBase()) return Promise.resolve();
+    return cwPost('/contacts/' + cw.source + '/conversations/' + cw.conv + '/messages', { content: text }).catch(function () {});
+  }
+
   $('back').onclick = function () { step = Math.max(0, step - 1); render(); };
   $('finish').onclick = function () { if (validate()) { step = N + 1; render(); window.scrollTo(0, 0); } };
-  $('restart').onclick = function () { step = 0; answers = []; submitted = false; render(); };
+  $('restart').onclick = function () { step = 0; answers = []; submitted = false; cw = null; leadCode = 'Q-' + Math.random().toString(36).slice(2, 6).toUpperCase(); render(); };
   render();
 })();

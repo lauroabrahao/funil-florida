@@ -73,6 +73,7 @@
     if (e.target === modal) closeLegal();
   });
   if (closeBtn) closeBtn.addEventListener('click', closeLegal);
+  if (location.hash === '#privacidade') openLegal('privacidade'); // link vindo do quiz
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && modal && !modal.hidden) closeLegal();
   });
