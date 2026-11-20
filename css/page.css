@@ -444,3 +444,9 @@ header.top .wrap{max-width:1500px;width:calc(100% - 2*var(--gut))}
   .cookie2-actions .btn{flex:1 1 100%}
   .pref{gap:14px}
 }
+
+/* Foto da Mara: moldura vertical, com folga acima da cabeça */
+.photo img{aspect-ratio:4/5;object-fit:cover;object-position:50% 10%}
+@media(max-width:759px){
+  .photo img{aspect-ratio:4/5;object-position:50% 10%}
+}
