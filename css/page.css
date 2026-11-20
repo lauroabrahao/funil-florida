@@ -446,7 +446,7 @@ header.top .wrap{max-width:1500px;width:calc(100% - 2*var(--gut))}
 }
 
 /* Foto da Mara: moldura vertical, com folga acima da cabeça */
-.photo img{aspect-ratio:4/5;object-fit:cover;object-position:50% 10%}
+.photo img{aspect-ratio:4/5;object-fit:cover;object-position:50% 0%}
 @media(max-width:759px){
-  .photo img{aspect-ratio:4/5;object-position:50% 10%}
+  .photo img{aspect-ratio:4/5;object-position:50% 0%}
 }
